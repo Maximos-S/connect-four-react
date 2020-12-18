@@ -26,6 +26,7 @@ def add_player_to_game(game_id):
 @game_routes.route('/<game_id>')
 def game(game_id):
   game = Game.query.filter_by(id=game_id).first()
+  # print('game_routes2', game.to_dict())
   return {"game": game.to_dict()}
 
 

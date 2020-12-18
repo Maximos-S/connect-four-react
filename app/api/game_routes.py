@@ -61,3 +61,4 @@ def make_move(game_id, player_id):
     else:
       return {"error": f"It's not your move {player_id}"}
   return {"success": True}
+

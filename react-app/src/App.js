@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import GameBoard from './components/GameBoard'
 import NewGameForm from './components/NewGameForm'
+import AddPlayerForm from './components/AddPlayerForm'
 
 function App() {
   const [currentGame, setCurrentGame] = useState('');
@@ -26,6 +27,9 @@ function App() {
 			</Route>
       <Route path='/game/:gameId' exact={true}>
         <GameBoard setCurrentPlayer={setCurrentPlayer} currentPlayer={currentPlayer} player1={player1} player2={player2} setPlayer1={setPlayer1} setPlayer2={setPlayer2} />
+      </Route>
+      <Route>
+        <AddPlayerForm currentGame={currentGame} setPlayer2={setPlayer2} />
       </Route>
 		</BrowserRouter>
 	)

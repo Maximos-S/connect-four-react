@@ -9,6 +9,9 @@ const NavBar = () => {
           <NavLink to="/" exact={true} activeClassName="active">
             New Game
           </NavLink>
+          <NavLink to="/join-game" exact={true} activeClassName="active">
+            Join Game
+          </NavLink>
         </li>
       </ul>
     </nav>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, redirect } from 'react'
 import {createGame} from '../services/gameApi';
 
 function NewGameForm(props){
@@ -12,6 +12,7 @@ function NewGameForm(props){
       props.setPlayer1(player1);
     }
     submitForm();
+
   }
 
   return (<form onSubmit={handleSubmit}>

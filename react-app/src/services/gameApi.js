@@ -41,6 +41,8 @@ export const getGame = async (gameId) => {
   return res.ok ? await res.json() : console.log(res.error);
 };
 
+
+
 export const makeMove = async (gameId, playerId, column) => {
   // TODO
   const res = await fetch(`/api/games/${gameId}/player/${playerId}/move`, {

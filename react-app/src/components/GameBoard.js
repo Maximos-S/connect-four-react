@@ -12,6 +12,36 @@ function GameBoard(props) {
   ]);
   const { gameId } = useParams();
 
+  const checkForWinner = async (oldGrid) => {
+    let grid = oldGrid;
+    //row check
+    for(let i = 0; i < grid.length; i++) {
+      res = [grid[1][i], grid[2][i], grid[3][i]]
+      if (res.every((e) => e === grid[0][i])) {
+        return true;
+      }
+    }
+    //column check
+    for(let i = 0; i < grid.length; i++) {
+      let res = grid[i].pop();
+      if (grid[i].every((e) => e === grid[i][0])) {
+        return true;
+      }
+      grid[i].push(res)
+      let res2 = grid[i].shift()
+      if (grid[i].every((e) => e === grid[i][0])) {
+        return true;
+      }
+      grid.unshift(res2)
+    }
+    //diagonal check
+    if (grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2] && grid[2][2] === grid[3][3]) return true;
+    if (grid[0][1] === grid[1][2] && grid[1][2] === grid[2][3] && grid[2][3] === grid[3][4]) return true;
+    if (grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2] && grid[2][2] === grid[3][3]) return true;
+    if (grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2] && grid[2][2] === grid[3][3]) return true;
+  }
+
+
   useEffect(function () {
     if (localStorage.getItem(`currentPlayer[${gameId}]`)) {
       props.setCurrentPlayer(localStorage.getItem(`currentPlayer[${gameId}]`));
@@ -24,6 +54,7 @@ function GameBoard(props) {
       async function getGameUpdates() {
         let { game } = await getGame(gameId);
         setGrid(game.board);
+        checkForWinner(grid)
         props.setPlayer1(game.player1);
         props.setPlayer2(game.player2);
       }
@@ -41,6 +72,7 @@ function GameBoard(props) {
       </div>
     ));
   }
+
 
   function otherPlayer() {
     if (!props.currentPlayer) return "";
@@ -60,6 +92,8 @@ function GameBoard(props) {
     makeMove(gameId, props.currentPlayer, e.target.dataset.column);
   }
 
+
+
   return (
     <>
       <h3>Play The Game {gameId}</h3>
@@ -69,6 +103,8 @@ function GameBoard(props) {
       </div>
     </>
   );
+
+
 }
 
 export default GameBoard;

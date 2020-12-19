@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
-import {getGame} from '../services/gameApi';
-import './GameBoard.css'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getGame, makeMove } from "../services/gameApi";
+import "./GameBoard.css";
 
 function GameBoard(props) {
-  const [grid, setGrid] = useState([[null, null, null, null, null], [null, null, null, null, null], [null, null, null, null, null], [null, null, null, null, null]]);
+  const [grid, setGrid] = useState([
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+    [null, null, null, null, null],
+  ]);
   const { gameId } = useParams();
 
   useEffect(function () {
@@ -14,24 +19,31 @@ function GameBoard(props) {
   }, []);
 
   // update game board
-  useEffect(function () {
-    async function getGameUpdates() {
-      let {game} = await getGame(gameId);
-      setGrid(game.board);
-      props.setPlayer1(game.player1);
-      props.setPlayer2(game.player2);
-    }
-    const intervalHandler = setInterval(() => getGameUpdates(), 1000);
+  useEffect(
+    function () {
+      async function getGameUpdates() {
+        let { game } = await getGame(gameId);
+        setGrid(game.board);
+        props.setPlayer1(game.player1);
+        props.setPlayer2(game.player2);
+      }
+      const intervalHandler = setInterval(() => getGameUpdates(), 1000);
 
-    return () => clearInterval(intervalHandler);
-  }, [props, gameId]);
+      return () => clearInterval(intervalHandler);
+    },
+    [props, gameId]
+  );
 
   function buildRow(row_id) {
-    return grid.map((col, col_id) => <div key={`${row_id}${col_id}`} data-row={row_id} data-column={col_id} >{col[row_id]}</div>);
+    return grid.map((col, col_id) => (
+      <div key={`${row_id}${col_id}`} data-row={row_id} data-column={col_id}>
+        {col[row_id]}
+      </div>
+    ));
   }
 
   function otherPlayer() {
-    if (!props.currentPlayer) return '';
+    if (!props.currentPlayer) return "";
     if (props.player1 === props.currentPlayer) {
       if (props.player2) {
         return props.player2;
@@ -43,14 +55,20 @@ function GameBoard(props) {
     }
   }
 
-  return (<>
-    <h3>Play The Game {gameId}</h3>
-    <b>You: {props.currentPlayer}</b> | 
-    <b>Opponent: {otherPlayer()}</b>
-    <div className="game-board">
-      {[0, 1, 2, 3].map((i) => buildRow(i)).reverse()}
-    </div>
-  </>);
+  function move(e) {
+    console.log(e.target.dataset.column);
+    makeMove(gameId, props.currentPlayer, e.target.dataset.column);
+  }
+
+  return (
+    <>
+      <h3>Play The Game {gameId}</h3>
+      <b>You: {props.currentPlayer}</b> |<b>Opponent: {otherPlayer()}</b>
+      <div className="game-board" onClick={move}>
+        {[0, 1, 2, 3, 4].map((i) => buildRow(i)).reverse()}
+      </div>
+    </>
+  );
 }
 
 export default GameBoard;

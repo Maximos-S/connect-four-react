@@ -15,8 +15,12 @@ export default function AddPlayerForm({ otherPlayer, setPlayer1, currentGame, se
     submitForm()
     setPlayer2(otherPlayer)
     setCurrentPlayer(player)
+
+    localStorage.setItem(`currentPlayer[${gameId}]`, player);
+
     return history.push(`/game/${gameId}`)
   }
+
 
   return (
     <form onSubmit={handleSubmit}>

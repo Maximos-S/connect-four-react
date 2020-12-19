@@ -34,7 +34,7 @@ def game(game_id):
 def make_move(game_id, player_id):
   game = Game.query.filter_by(id=game_id).first()
   moves = game.moves
-  column_id = request.get_json().get('column')
+  column_id = int(request.get_json().get('column'))
   if moves:
     latest_move = list(moves)[-1]
     if latest_move.player_id != player_id:
@@ -62,4 +62,3 @@ def make_move(game_id, player_id):
     else:
       return {"error": f"It's not your move {player_id}"}
   return {"success": True}
-

@@ -4,7 +4,7 @@ export const createGame = async (player1) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ player1: player1 }),
+    body: JSON.stringify({ "player1": player1 }),
   });
   if (res.ok) {
     //res coming in as {'game': game.id}
@@ -19,7 +19,7 @@ export const addPlayer = async (gameId, player2) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ player2: player2 }),
+    body: JSON.stringify({ "player2": player2 }),
   });
   if (res.ok) {
     //res coming in as {'game': game.id}
@@ -48,7 +48,7 @@ export const makeMove = async (gameId, playerId, column) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ column: column }),
+    body: JSON.stringify({ "column": column }),
   });
   if (res.ok) {
     //res coming in as {'game': game.id}

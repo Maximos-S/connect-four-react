@@ -19,7 +19,7 @@ export const addPlayer = async (gameId, player2) => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(player2),
+		body: JSON.stringify({'player2': player2}),
 	})
 	if (res.ok) {
 		//res coming in as {'game': game.id}
